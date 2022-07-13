@@ -57,7 +57,7 @@ export default class MintCrate extends Component{
                         <MDBRow>
                             <MDBCol md="2"/>
                             <MDBCol md="8" align="center">
-                                <MDBBtn className='d-grid gap-2 col-6 mx-auto' color='blue'>Mint</MDBBtn>
+                                <MDBBtn className='d-grid gap-2 col-6 mx-auto' color='blue' onClick={()=>this.props.CrateMintHandler(this.state.numberOfNFTs)}>Mint</MDBBtn>
                             </MDBCol>
                             <MDBCol md="2"/>
                         </MDBRow>

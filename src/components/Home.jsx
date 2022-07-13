@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import HomePage from "./HomePage";
 import Mint from "./Mint/Mint";
-import MyCollections from "./MyCollections";
+import MyCollections from "./MyCollections/MyCollections";
+
+import CollectionChoosePage from "./MyCollections/CollectionChoosePage"
+import CrateCollection from "./MyCollections/CrateCollection"
+import TesseractCollection from "./MyCollections/TesseractCollection"
 
 import {
   MDBNavbar,
@@ -28,7 +32,14 @@ export default class Home extends Component{
             isMyCollectionsPage: false,
             isTesseractView: false,
             selectedAddress: undefined,
-            networkError: undefined
+            networkError: undefined,
+            isCollectionsPageSelectionView: false,
+            isCollectionsPageTesseractView: false,
+            isCollectionsPageCrateView: false,
+            isCollectionsPageJsonView: false,
+            jsonViewData: undefined,
+            crateTokenIds: [0,1,2,3,4,5,6,7,8,9,10],
+            tesseractTokenIds: [0,1,2,3,4,5]
         };
     }
 
@@ -38,6 +49,10 @@ export default class Home extends Component{
 
     setNetworkError(networkError){
         this.setState({networkError});
+    }
+
+    setJsonViewData(jsonViewData){
+        this.setState({jsonViewData});
     }
 
     switchToHomePage(){
@@ -61,7 +76,51 @@ export default class Home extends Component{
         this.setState({
             isHomePage:false,
             isMintPage:false,
-            isMyCollectionsPage:true
+            isMyCollectionsPage:true,
+            isCollectionsPageSelectionView: true,
+            isCollectionsPageTesseractView: false,
+            isCollectionsPageCrateView: false,
+            isCollectionsPageJsonView: false
+        })
+    }
+
+    switchToCollectionsPageSelectionView(){
+        this.setState({isCollectionsPageSelectionView: true,
+            isCollectionsPageTesseractView: false,
+            isCollectionsPageCrateView: false,
+            isCollectionsPageJsonView: false,
+            isHomePage:false,
+            isMintPage:false
+        })
+    }
+
+    switchToCollectionsPageTesseractView(){
+        this.setState({isCollectionsPageSelectionView: false,
+            isCollectionsPageTesseractView: true,
+            isCollectionsPageCrateView: false,
+            isCollectionsPageJsonView: false,
+            isHomePage:false,
+            isMintPage:false
+        })
+    }
+
+    switchToCollectionsPageCrateView(){
+        this.setState({isCollectionsPageSelectionView: false,
+            isCollectionsPageTesseractView: false,
+            isCollectionsPageCrateView: true,
+            isCollectionsPageJsonView: false,
+            isHomePage:false,
+            isMintPage:false
+        })
+    }
+
+    switchToCollectionsPageJsonView(){
+        this.setState({isCollectionsPageSelectionView: false,
+            isCollectionsPageTesseractView: false,
+            isCollectionsPageCrateView: false,
+            isCollectionsPageJsonView: true,
+            isHomePage:false,
+            isMintPage:false
         })
     }
 
@@ -125,7 +184,17 @@ export default class Home extends Component{
                     setNetworkError={(i)=>this.setNetworkError(i)}/>}
             </div>
             <div>
-                {this.state.isMyCollectionsPage && <MyCollections />}
+                {this.state.isMyCollectionsPage && <MyCollections isCollectionsPageSelectionView={this.state.isCollectionsPageSelectionView}
+                    isCollectionsPageTesseractView={this.state.isCollectionsPageTesseractView}
+                    isCollectionsPageCrateView={this.state.isCollectionsPageCrateView}
+                    isCollectionsPageJsonView={this.state.isCollectionsPageJsonView}
+                    switchToCollectionsPageCrateView={()=>this.switchToCollectionsPageCrateView()}
+                    switchToCollectionsPageTesseractView={()=>this.switchToCollectionsPageTesseractView()}
+                    switchToCollectionsPageJsonView={()=>this.switchToCollectionsPageJsonView()}
+                    crateTokenIds={this.state.crateTokenIds}
+                    tesseractTokenIds={this.state.tesseractTokenIds}
+                    setJsonViewData={(jsonViewData)=>this.setJsonViewData(jsonViewData)}
+                    jsonViewData={this.state.jsonViewData}/>}
             </div>
         </div>
      );

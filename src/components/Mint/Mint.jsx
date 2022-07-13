@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import { NoWalletDetected } from "../NoWalletDetected";
 import { ConnectWallet } from "../ConnectWallet";
 import { NetworkErrorMessage } from "../NetworkErrorMessage";
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import MintTesseract from "./MintTesseract";
 import MintCrate from "./MintCrate";
 
-// This is the Hardhat Network id, you might change it in the hardhat.config.js.
-// If you are using MetaMask, be sure to change the Network id to 1337.
-// Here's a list of network ids https://docs.metamask.io/guide/ethereum-provider.html#properties
-// to use when deploying to other networks.
-const HARDHAT_NETWORK_ID = '31337';
+
+import contractAddress from "../../iotex_testnet_contract_metadata/contract_address.json"
+import CrateMinter_v1Artifact from "../../iotex_testnet_contract_metadata/CrateMinter_v1.json"
+
+const IOTEX_NETWORK_ID = '4690';
 
 export default class Mint extends Component{
 
@@ -40,7 +40,7 @@ export default class Mint extends Component{
                     {this.props.isTesseractView && <MintTesseract selectedAddress={this.props.selectedAddress}/>}
                 </div>
                 <div>
-                    {!this.props.isTesseractView && <MintCrate selectedAddress={this.props.selectedAddress}/>}
+                    {!this.props.isTesseractView && <MintCrate selectedAddress={this.props.selectedAddress} CrateMintHandler = {this.MintCrateHandler}/>}
                 </div>
             </div>
         )
@@ -100,16 +100,21 @@ export default class Mint extends Component{
     }
 
     async _initializeEthers() {
-        // We first initialize ethers by creating a provider using window.ethereum
-        this._provider = new ethers.providers.Web3Provider(window.ethereum);
+        this._CrateMinter_v1_Contract = new ethers.Contract(
+                                        contractAddress.CrateMinter_v1.address,
+                                        CrateMinter_v1Artifact.abi,
+                                        (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
+                                    )
 
-        // Then, we initialize the contract using that provider and the token's
-        // artifact. You can do this same thing with your contracts.
-//         this._token = new ethers.Contract(
-//           contractAddress.Token,
-//           TokenArtifact.abi,
-//           this._provider.getSigner(0)
-//         );
+
+    }
+
+    MintCrateHandler = async(numMints) => {
+        let MintCost = ethers.utils.formatEther(await this._CrateMinter_v1_Contract.mintCost())
+        await this._CrateMinter_v1_Contract.mintCrate(BigNumber.from(numMints),{
+			value: ethers.utils.parseEther((MintCost*numMints).toString())
+		})
+
     }
 
       // The next two methods are needed to start and stop polling data. While
@@ -136,7 +141,7 @@ export default class Mint extends Component{
     }
 
     _checkNetwork() {
-        if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
+        if (window.ethereum.networkVersion === IOTEX_NETWORK_ID) {
           return true;
         }
 

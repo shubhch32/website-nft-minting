@@ -1,0 +1,26 @@
+{
+  "SafeDriveToken": {
+    "address": "0x28D9D2c1B607bF442F9af6D33a3006461BF6aEBd",
+    "height": 15057959
+  },
+  "CAR": {
+    "address": "0x550cbAFCcF826b51Cfec6392185009E4934EDEa8",
+    "height": 15057976
+  },
+  "MultiSig": {
+    "address": "0x83e438fAF03eD7f504c7e63fA29d61BA6dc64c36",
+    "height": 15057993
+  },
+  "LocalMultiSig": {
+    "address": "0xf52fA46421ECc75856D6c6a0504F6Dd473f97C01",
+    "height": 15057999
+  },
+  "RRNFTv2_2": {
+    "address": "0x597ef7CFA6e47c7f43CA3653e6f5696b4c0b9075",
+    "height": 15058099
+  },
+  "CrateMinter_v1": {
+    "address": "0x04Ab8136ad82322E17A7986b89c28EbC7f8eE3B4",
+    "height": 15069274
+  }
+}
