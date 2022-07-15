@@ -9,6 +9,18 @@ export default class MyCollections extends Component{
 
     constructor(props){
         super(props);
+        this.state={
+            noOfCrates: 0,
+            noOfTesseracts: 0
+        }
+    }
+
+    setNoOfCrates(noOfCrates){
+        this.setState({noOfCrates})
+    }
+
+    setNoOfTesseracts(noOfTesseracts){
+        this.setState({noOfTesseracts})
     }
 
     render(){
@@ -18,8 +30,12 @@ export default class MyCollections extends Component{
                 {this.props.isCollectionsPageSelectionView && <CollectionChoosePage
 //                     switchToCollectionsPageTesseractView={()=>this.props.switchToCollectionsPageTesseractView()}
 //                     switchToCollectionsPageCrateView={()=>this.props.switchToCollectionsPageCrateView()}
-                    noOfCrates={this.props.noOfCrates}
-                    noOfTesseracts={this.props.noOfTesseracts}
+                    noOfCrates={this.state.noOfCrates}
+                    noOfTesseracts={this.state.noOfTesseracts}
+                    provider={this.props.provider}
+                    setNoOfCrates={(i)=>this.setNoOfCrates(i)}
+                    setNoOfTesseracts={(i)=>this.setNoOfTesseracts(i)}
+                    selectedAddress={this.props.selectedAddress}
                     />}
             </div>
 {/*             <div> */}

@@ -9,6 +9,7 @@ import MintCrate from "./MintCrate";
 
 import contractAddress from "../../iotex_testnet_contract_metadata/contract_address.json"
 import CrateMinter_v1Artifact from "../../iotex_testnet_contract_metadata/CrateMinter_v1.json"
+import TesseractMinter_v1Artifact from "../../iotex_testnet_contract_metadata/TesseractMinter_v1.json"
 
 const IOTEX_NETWORK_ID = '4690';
 
@@ -16,6 +17,10 @@ export default class Mint extends Component{
 
     constructor(props){
         super(props);
+        this.state = {
+            tesseractMinter_v1_Contract: undefined,
+            crateMinter_v1_Contract: undefined
+        }
     }
 
     render(){
@@ -37,7 +42,7 @@ export default class Mint extends Component{
             <div>
                 <br/>
                 <div>
-                    {this.props.isTesseractView && <MintTesseract selectedAddress={this.props.selectedAddress}/>}
+                    {this.props.isTesseractView && <MintTesseract selectedAddress={this.props.selectedAddress} TesseractMintHandler = {this.MintTesseractHandler}/>}
                 </div>
                 <div>
                     {!this.props.isTesseractView && <MintCrate selectedAddress={this.props.selectedAddress} CrateMintHandler = {this.MintCrateHandler}/>}
@@ -100,18 +105,37 @@ export default class Mint extends Component{
     }
 
     async _initializeEthers() {
-        this._CrateMinter_v1_Contract = new ethers.Contract(
+
+        const crateMinter_v1_Contract = new ethers.Contract(
                                         contractAddress.CrateMinter_v1.address,
                                         CrateMinter_v1Artifact.abi,
                                         (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
                                     )
 
+        const tesseractMinter_v1_Contract = new ethers.Contract(
+                                        contractAddress.TesseractMinter_v1.address,
+                                        TesseractMinter_v1Artifact.abi,
+                                        (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
+                                    )
+
+        this.props.setProvider(new ethers.providers.Web3Provider(window.ethereum))
+        this.setState({crateMinter_v1_Contract});
+        this.setState({tesseractMinter_v1_Contract});
+
 
     }
 
     MintCrateHandler = async(numMints) => {
-        let MintCost = ethers.utils.formatEther(await this._CrateMinter_v1_Contract.mintCost())
-        await this._CrateMinter_v1_Contract.mintCrate(BigNumber.from(numMints),{
+        let MintCost = ethers.utils.formatEther(await this.state.crateMinter_v1_Contract.mintCost())
+        await this.state.crateMinter_v1_Contract.mintCrate(BigNumber.from(numMints),{
+			value: ethers.utils.parseEther((MintCost*numMints).toString())
+		})
+
+    }
+
+    MintTesseractHandler = async(numMints) => {
+        let MintCost = ethers.utils.formatEther(await this.state.tesseractMinter_v1_Contract.mintCost())
+        await this.state.tesseractMinter_v1_Contract.mintTesseract(BigNumber.from(numMints),{
 			value: ethers.utils.parseEther((MintCost*numMints).toString())
 		})
 

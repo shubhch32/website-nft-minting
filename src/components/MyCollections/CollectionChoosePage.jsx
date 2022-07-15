@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import {ethers, BigNumber} from "ethers";
 import {
     MDBContainer,
     MDBRow,
     MDBCol
 } from 'mdb-react-ui-kit';
+
+import contractAddress from "../../iotex_testnet_contract_metadata/contract_address.json"
+import CrateMinter_v1Artifact from "../../iotex_testnet_contract_metadata/CrateMinter_v1.json"
+import TesseractMinter_v1Artifact from "../../iotex_testnet_contract_metadata/TesseractMinter_v1.json"
 
 export default class CollectionChoosePage extends Component{
 
@@ -11,7 +16,37 @@ export default class CollectionChoosePage extends Component{
         super(props);
     }
 
+    componentDidMount(){
+        this.getNFTCounts();
+    }
+
+    getNFTCounts = async() => {
+        let crateMinter_v1_Contract = new ethers.Contract(
+                                    contractAddress.CrateMinter_v1.address,
+                                    CrateMinter_v1Artifact.abi,
+                                    (this.props.provider)
+                                );
+
+        let tesseractMinter_v1_Contract = new ethers.Contract(
+                                    contractAddress.TesseractMinter_v1.address,
+                                    TesseractMinter_v1Artifact.abi,
+                                    (this.props.provider)
+                                );
+//         const numCrate = (await crateMinter_v1_Contract.CrateCount(this.props.selectedAddress)).toNumber();
+        console.log(this.props.selectedAddress);
+        console.log(this.props.provider);
+        console.log(CrateMinter_v1Artifact);
+        console.log(contractAddress);
+        const numTesseract = (await tesseractMinter_v1_Contract.TesseractCount(this.props.selectedAddress)).toNumber();
+//         this.props.setNoOfCrates(numCrate);
+        this.props.setNoOfTesseracts(numTesseract);
+//         console.log(numCrate)
+        console.log(numTesseract);
+        // console.log(this.props.provider)
+    }
+
     render(){
+//         this.getNFTCounts();
         return(
             <div>
                 <br/>

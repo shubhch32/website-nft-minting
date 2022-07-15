@@ -32,6 +32,7 @@ export default class Home extends Component{
             isMyCollectionsPage: false,
             isTesseractView: false,
             selectedAddress: undefined,
+            provider: undefined,
             networkError: undefined,
             isCollectionsPageSelectionView: false,
             isCollectionsPageTesseractView: false,
@@ -45,6 +46,10 @@ export default class Home extends Component{
 
     setSelectedAddress(selectedAddress){
         this.setState({selectedAddress});
+    }
+
+    setProvider(provider){
+        this.setState({provider});
     }
 
     setNetworkError(networkError){
@@ -181,7 +186,8 @@ export default class Home extends Component{
                     selectedAddress={this.state.selectedAddress}
                     networkError={this.state.networkError}
                     setSelectedAddress={(i)=>this.setSelectedAddress(i)}
-                    setNetworkError={(i)=>this.setNetworkError(i)}/>}
+                    setNetworkError={(i)=>this.setNetworkError(i)}
+                    setProvider={(i)=>this.setProvider(i)}/>}
             </div>
             <div>
                 {this.state.isMyCollectionsPage && <MyCollections isCollectionsPageSelectionView={this.state.isCollectionsPageSelectionView}
@@ -193,6 +199,8 @@ export default class Home extends Component{
 //                     switchToCollectionsPageJsonView={()=>this.switchToCollectionsPageJsonView()}
                     noOfCrates={this.state.noOfCrates}
                     noOfTesseracts={this.state.noOfTesseracts}
+                    provider={this.state.provider}
+                    selectedAddress={this.state.selectedAddress}
 //                     setJsonViewData={(jsonViewData)=>this.setJsonViewData(jsonViewData)}
 //                     jsonViewData={this.state.jsonViewData}
                     />}
