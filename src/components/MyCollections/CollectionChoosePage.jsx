@@ -32,17 +32,10 @@ export default class CollectionChoosePage extends Component{
                                     TesseractMinter_v1Artifact.abi,
                                     (this.props.provider)
                                 );
-//         const numCrate = (await crateMinter_v1_Contract.CrateCount(this.props.selectedAddress)).toNumber();
-        console.log(this.props.selectedAddress);
-        console.log(this.props.provider);
-        console.log(CrateMinter_v1Artifact);
-        console.log(contractAddress);
+        const numCrate = (await crateMinter_v1_Contract.CrateCount(this.props.selectedAddress)).toNumber();
         const numTesseract = (await tesseractMinter_v1_Contract.TesseractCount(this.props.selectedAddress)).toNumber();
-//         this.props.setNoOfCrates(numCrate);
+        this.props.setNoOfCrates(numCrate);
         this.props.setNoOfTesseracts(numTesseract);
-//         console.log(numCrate)
-        console.log(numTesseract);
-        // console.log(this.props.provider)
     }
 
     render(){
