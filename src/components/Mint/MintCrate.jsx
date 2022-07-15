@@ -40,7 +40,7 @@ export default class MintCrate extends Component{
                         <br/>
                         <MDBRow>
                             <MDBCol align="center">
-                                <img height="300px" width="400px" src={require('../../Assets/crate.gif')} alt="loading..." />
+                                <video width="350" autoplay="true" src="/Videos/Crate.mp4" loop alt="loading..."></video>
                             </MDBCol>
                         </MDBRow>
                         <br/>

@@ -22,10 +22,12 @@ export default class CollectionChoosePage extends Component{
                             <br/>
                             <MDBRow>
                                 <MDBCol align="center">
-                                    <button style={{border:0}} onClick={()=>this.props.switchToCollectionsPageCrateView()}>
-                                        <img height="300px" width="400px" src={require('../../Assets/crate.gif')} alt="loading..." />
-                                        <p>Crates</p>
-                                    </button>
+                                    <p><b><u>Crates</u></b></p>
+                                    <video width="350" autoplay="true" loop src="/Videos/Crate.mp4"></video>
+{/*                                     <img height="300px" width="400px" src={require('../../Assets/Crate.mp4')} alt="loading..." /> */}
+                                    <p>Count = {this.props.noOfCrates}</p>
+{/*                                     <button style={{border:0}} onClick={()=>this.props.switchToCollectionsPageCrateView()}> */}
+{/*                                     </button> */}
                                 </MDBCol>
                             </MDBRow>
                             <br/>
@@ -34,10 +36,12 @@ export default class CollectionChoosePage extends Component{
                             <br/>
                             <MDBRow>
                                 <MDBCol align="center">
-                                    <button style={{border:0}} onClick={()=>this.props.switchToCollectionsPageTesseractView()}>
-                                        <img height="300px" width="400px" src={require('../../Assets/tesseract.gif')} alt="loading..." />
-                                        <p>Tesseracts</p>
-                                    </button>
+                                    <p><b><u>Tesseracts</u></b></p>
+                                    <video width="350" autoplay="true" loop src="/Videos/Tesseract.mp4"></video>
+{/*                                     <img height="300px" width="400px" src={require('../../Assets/tesseract.gif')} alt="loading..." /> */}
+                                    <p>Count = {this.props.noOfTesseracts}</p>
+{/*                                     <button style={{border:0}} onClick={()=>this.props.switchToCollectionsPageTesseractView()}> */}
+{/*                                     </button> */}
                                 </MDBCol>
                             </MDBRow>
                             <br/>

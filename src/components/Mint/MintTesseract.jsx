@@ -40,7 +40,7 @@ export default class MintTesseract extends Component{
                         <br/>
                         <MDBRow>
                             <MDBCol align="center">
-                                <img height="300px" width="400px" src={require('../../Assets/tesseract.gif')} alt="loading..." />
+                                <video width="350" autoplay="true" src="/Videos/Tesseract.mp4" loop alt="loading..."></video>
                             </MDBCol>
                         </MDBRow>
                         <br/>

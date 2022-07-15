@@ -38,8 +38,8 @@ export default class Home extends Component{
             isCollectionsPageCrateView: false,
             isCollectionsPageJsonView: false,
             jsonViewData: undefined,
-            crateTokenIds: [0,1,2,3,4,5,6,7,8,9,10],
-            tesseractTokenIds: [0,1,2,3,4,5]
+            noOfCrates: 2,
+            noOfTesseracts: 3
         };
     }
 
@@ -185,16 +185,17 @@ export default class Home extends Component{
             </div>
             <div>
                 {this.state.isMyCollectionsPage && <MyCollections isCollectionsPageSelectionView={this.state.isCollectionsPageSelectionView}
-                    isCollectionsPageTesseractView={this.state.isCollectionsPageTesseractView}
-                    isCollectionsPageCrateView={this.state.isCollectionsPageCrateView}
-                    isCollectionsPageJsonView={this.state.isCollectionsPageJsonView}
-                    switchToCollectionsPageCrateView={()=>this.switchToCollectionsPageCrateView()}
-                    switchToCollectionsPageTesseractView={()=>this.switchToCollectionsPageTesseractView()}
-                    switchToCollectionsPageJsonView={()=>this.switchToCollectionsPageJsonView()}
-                    crateTokenIds={this.state.crateTokenIds}
-                    tesseractTokenIds={this.state.tesseractTokenIds}
-                    setJsonViewData={(jsonViewData)=>this.setJsonViewData(jsonViewData)}
-                    jsonViewData={this.state.jsonViewData}/>}
+//                     isCollectionsPageTesseractView={this.state.isCollectionsPageTesseractView}
+//                     isCollectionsPageCrateView={this.state.isCollectionsPageCrateView}
+//                     isCollectionsPageJsonView={this.state.isCollectionsPageJsonView}
+//                     switchToCollectionsPageCrateView={()=>this.switchToCollectionsPageCrateView()}
+//                     switchToCollectionsPageTesseractView={()=>this.switchToCollectionsPageTesseractView()}
+//                     switchToCollectionsPageJsonView={()=>this.switchToCollectionsPageJsonView()}
+                    noOfCrates={this.state.noOfCrates}
+                    noOfTesseracts={this.state.noOfTesseracts}
+//                     setJsonViewData={(jsonViewData)=>this.setJsonViewData(jsonViewData)}
+//                     jsonViewData={this.state.jsonViewData}
+                    />}
             </div>
         </div>
      );

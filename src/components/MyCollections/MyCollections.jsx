@@ -16,22 +16,25 @@ export default class MyCollections extends Component{
         <div>
             <div>
                 {this.props.isCollectionsPageSelectionView && <CollectionChoosePage
-                    switchToCollectionsPageTesseractView={()=>this.props.switchToCollectionsPageTesseractView()}
-                    switchToCollectionsPageCrateView={()=>this.props.switchToCollectionsPageCrateView()}/>}
+//                     switchToCollectionsPageTesseractView={()=>this.props.switchToCollectionsPageTesseractView()}
+//                     switchToCollectionsPageCrateView={()=>this.props.switchToCollectionsPageCrateView()}
+                    noOfCrates={this.props.noOfCrates}
+                    noOfTesseracts={this.props.noOfTesseracts}
+                    />}
             </div>
-            <div>
-                {this.props.isCollectionsPageTesseractView && <TesseractCollection tesseractTokenIds={this.props.tesseractTokenIds}
-                    switchToCollectionsPageJsonView={()=>this.props.switchToCollectionsPageJsonView()}
-                    setJsonViewData={(jsonViewData)=>this.props.setJsonViewData(jsonViewData)}/>}
-            </div>
-            <div>
-                {this.props.isCollectionsPageCrateView && <CrateCollection crateTokenIds={this.props.crateTokenIds}
-                    switchToCollectionsPageJsonView={()=>this.props.switchToCollectionsPageJsonView()}
-                    setJsonViewData={(jsonViewData)=>this.props.setJsonViewData(jsonViewData)}/>}
-            </div>
-            <div>
-                {this.props.isCollectionsPageJsonView && <JsonView jsonViewData={this.props.jsonViewData}/>}
-            </div>
+{/*             <div> */}
+{/*                 {this.props.isCollectionsPageTesseractView && <TesseractCollection tesseractTokenIds={this.props.tesseractTokenIds} */}
+{/*                     switchToCollectionsPageJsonView={()=>this.props.switchToCollectionsPageJsonView()} */}
+{/*                     setJsonViewData={(jsonViewData)=>this.props.setJsonViewData(jsonViewData)}/>} */}
+{/*             </div> */}
+{/*             <div> */}
+{/*                 {this.props.isCollectionsPageCrateView && <CrateCollection crateTokenIds={this.props.crateTokenIds} */}
+{/*                     switchToCollectionsPageJsonView={()=>this.props.switchToCollectionsPageJsonView()} */}
+{/*                     setJsonViewData={(jsonViewData)=>this.props.setJsonViewData(jsonViewData)}/>} */}
+{/*             </div> */}
+{/*             <div> */}
+{/*                 {this.props.isCollectionsPageJsonView && <JsonView jsonViewData={this.props.jsonViewData}/>} */}
+{/*             </div> */}
         </div>
         )
     }
