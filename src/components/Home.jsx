@@ -162,7 +162,7 @@ export default class Home extends Component{
                            <MDBNavbarItem>
                              <MDBDropdown>
                                <MDBDropdownToggle type='button' tag='a' className='nav-link'>
-                                 Mint
+                                 <b>Mint</b>
                                </MDBDropdownToggle>
                                <MDBDropdownMenu>
                                  <MDBDropdownItem>
