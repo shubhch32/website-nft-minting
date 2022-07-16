@@ -39,8 +39,8 @@ export default class Home extends Component{
             isCollectionsPageCrateView: false,
             isCollectionsPageJsonView: false,
             jsonViewData: undefined,
-            noOfCrates: 2,
-            noOfTesseracts: 3
+            tesseractMinter_v1_Contract: undefined,
+            crateMinter_v1_Contract: undefined
         };
     }
 
@@ -58,6 +58,14 @@ export default class Home extends Component{
 
     setJsonViewData(jsonViewData){
         this.setState({jsonViewData});
+    }
+
+    setTesseractMinter_v1_Contract(tesseractMinter_v1_Contract){
+        this.setState({tesseractMinter_v1_Contract});
+    }
+
+    setCrateMinter_v1_Contract(crateMinter_v1_Contract){
+        this.setState({crateMinter_v1_Contract});
     }
 
     switchToHomePage(){
@@ -187,7 +195,12 @@ export default class Home extends Component{
                     networkError={this.state.networkError}
                     setSelectedAddress={(i)=>this.setSelectedAddress(i)}
                     setNetworkError={(i)=>this.setNetworkError(i)}
-                    setProvider={(i)=>this.setProvider(i)}/>}
+                    setProvider={(i)=>this.setProvider(i)}
+                    setTesseractMinter_v1_Contract={(i)=>this.setTesseractMinter_v1_Contract(i)}
+                    setCrateMinter_v1_Contract={(i)=>this.setCrateMinter_v1_Contract(i)}
+                    tesseractMinter_v1_Contract={this.state.tesseractMinter_v1_Contract}
+                    crateMinter_v1_Contract={this.state.crateMinter_v1_Contract}
+                    />}
             </div>
             <div>
                 {this.state.isMyCollectionsPage && <MyCollections isCollectionsPageSelectionView={this.state.isCollectionsPageSelectionView}
@@ -197,8 +210,6 @@ export default class Home extends Component{
 //                     switchToCollectionsPageCrateView={()=>this.switchToCollectionsPageCrateView()}
 //                     switchToCollectionsPageTesseractView={()=>this.switchToCollectionsPageTesseractView()}
 //                     switchToCollectionsPageJsonView={()=>this.switchToCollectionsPageJsonView()}
-                    noOfCrates={this.state.noOfCrates}
-                    noOfTesseracts={this.state.noOfTesseracts}
                     provider={this.state.provider}
                     selectedAddress={this.state.selectedAddress}
 //                     setJsonViewData={(jsonViewData)=>this.setJsonViewData(jsonViewData)}

@@ -17,10 +17,6 @@ export default class Mint extends Component{
 
     constructor(props){
         super(props);
-        this.state = {
-            tesseractMinter_v1_Contract: undefined,
-            crateMinter_v1_Contract: undefined
-        }
     }
 
     render(){
@@ -119,23 +115,21 @@ export default class Mint extends Component{
                                     )
 
         this.props.setProvider(new ethers.providers.Web3Provider(window.ethereum))
-        this.setState({crateMinter_v1_Contract});
-        this.setState({tesseractMinter_v1_Contract});
-
-
+        this.props.setTesseractMinter_v1_Contract(tesseractMinter_v1_Contract);
+        this.props.setCrateMinter_v1_Contract(crateMinter_v1_Contract);
     }
 
     MintCrateHandler = async(numMints) => {
-        let MintCost = ethers.utils.formatEther(await this.state.crateMinter_v1_Contract.mintCost())
-        await this.state.crateMinter_v1_Contract.mintCrate(BigNumber.from(numMints),{
+        let MintCost = ethers.utils.formatEther(await this.props.crateMinter_v1_Contract.mintCost())
+        await this.props.crateMinter_v1_Contract.mintCrate(BigNumber.from(numMints),{
 			value: ethers.utils.parseEther((MintCost*numMints).toString())
 		})
 
     }
 
     MintTesseractHandler = async(numMints) => {
-        let MintCost = ethers.utils.formatEther(await this.state.tesseractMinter_v1_Contract.mintCost())
-        await this.state.tesseractMinter_v1_Contract.mintTesseract(BigNumber.from(numMints),{
+        let MintCost = ethers.utils.formatEther(await this.props.tesseractMinter_v1_Contract.mintCost())
+        await this.props.tesseractMinter_v1_Contract.mintTesseract(BigNumber.from(numMints),{
 			value: ethers.utils.parseEther((MintCost*numMints).toString())
 		})
 
