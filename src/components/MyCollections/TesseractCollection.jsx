@@ -18,7 +18,7 @@ export default class TesseractCollection extends Component{
                 {tesseractTokenIds.map((tesseractTokenId)=>(
                     <MDBCol md="4" align="center">
                         <button style={{border:0}} onClick={()=>this.switchToJsonView(tesseractTokenId+3000)}>
-                            <img height="250px" width="330px" src={require('../../Assets/tesseract.gif')} alt="loading..." />
+                            <video width="350" autoplay="true" loop src="/Videos/Tesseract.mp4"></video>
                             <p>Token #{tesseractTokenId}</p>
                         </button>
                     </MDBCol>

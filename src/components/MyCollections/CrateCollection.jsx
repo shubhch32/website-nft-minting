@@ -18,7 +18,7 @@ export default class CrateCollection extends Component{
                 {crateTokenIds.map((crateTokenId)=>(
                     <MDBCol md="4" align="center">
                         <button style={{border:0}} onClick={()=>this.switchToJsonView(crateTokenId)}>
-                            <img height="250px" width="330px" src={require('../../Assets/crate.gif')} alt="loading..." />
+                            <video width="350" autoplay="true" loop src="/Videos/Crate.mp4"></video>
                             <p>Token #{crateTokenId}</p>
                         </button>
                     </MDBCol>
