@@ -172,7 +172,7 @@ export default class Home extends Component{
                                                 <MDBDropdownToggle type='button' tag='a' className='nav-link'>
                                                     <b>Mint</b>
                                                 </MDBDropdownToggle>
-                                                <MDBDropdownMenu z-index='2'>
+                                                <MDBDropdownMenu>
                                                     <MDBDropdownItem>
                                                         <MDBDropdownLink onClick={() => this.switchToMintPage(true)}>Tesseract</MDBDropdownLink>
                                                     </MDBDropdownItem>
