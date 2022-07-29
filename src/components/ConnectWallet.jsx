@@ -1,31 +1,41 @@
 import React from "react";
 
 import { NetworkErrorMessage } from "./NetworkErrorMessage";
+import {
+    MDBContainer,
+    MDBRow,
+    MDBCol
+} from 'mdb-react-ui-kit';
 
-export function ConnectWallet({ connectWallet, networkError, dismiss }) {
-  return (
-    <div className="container">
-      <div className="row justify-content-md-center">
-        <div className="col-12 text-center">
-          {/* Metamask network should be set to Localhost:8545. */}
-          {networkError && (
-            <NetworkErrorMessage
-              message={networkError}
-              dismiss={dismiss}
-            />
-          )}
-        </div>
-        <div className="col-6 p-4 text-center">
-          <p>Please connect to your wallet.</p>
-          <button
-            className="btn btn-warning"
-            type="button"
-            onClick={connectWallet}
-          >
-            Connect Wallet
-          </button>
-        </div>
-      </div>
-    </div>
+export function ConnectWallet({ connectWallet, networkError, dismiss, connectToIoPayWallet }) {
+    return (
+        <MDBContainer align="center">
+            <br/>
+            <MDBRow align="center">
+                {networkError && (
+                    <NetworkErrorMessage
+                        message={networkError}
+                        dismiss={dismiss}
+                    />
+                )}
+                <p>Please connect to your wallet.</p>
+            </MDBRow>
+            <button
+                className="btn btn-warning"
+                type="button"
+                onClick={connectWallet}
+            >
+                Connect Metamask Wallet
+            </button>
+            <br/>
+            <br/>
+            <button
+                className="btn btn-warning"
+                type="button"
+                onClick={connectToIoPayWallet}
+            >
+                Connect To IoPay Mobile
+            </button>
+        </MDBContainer>
   );
 }

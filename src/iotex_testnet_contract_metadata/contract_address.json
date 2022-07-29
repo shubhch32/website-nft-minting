@@ -1,18 +1,18 @@
 {
   "LocalMultiSig": {
-    "address": "0x7599cFa8dfE7242629FB9128764F5F6FEF1c4Ac0",
-    "height": 18463616
+    "address": "0x26Ecf07D7A50357319263ebafa83Eeb638268572",
+    "height": 15329261
   },
   "RRNFTv2_2": {
-    "address": "0x7e55C3af89acC2efab7BC21fb90E24D27BEBD789",
-    "height": 18464017
+    "address": "0x0bdF8d3d253092F3617D696d0BE097a2Ec35E7C0",
+    "height": 15348852
   },
   "CrateMinter_v1": {
-    "address": "0x39ed57b86F5853B3F154ED4141Df0B83B4B09556",
-    "height": 18464036
+    "address": "0xd89894421C6f34A2c1432652231148dfd4365955",
+    "height": 15348873
   },
   "TesseractMinter_v1": {
-    "address": "0xD0Ec41bC7534f57A0E06d8d9709D761D9814148c",
-    "height": 18464047
+    "address": "0x8be074Abce072CE8d70344813DA5F95084FF7BfA",
+    "height": 15348884
   }
 }
