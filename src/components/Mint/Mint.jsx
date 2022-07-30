@@ -12,7 +12,6 @@ import CrateMinter_v1Artifact from "../../iotex_testnet_contract_metadata/CrateM
 import TesseractMinter_v1Artifact from "../../iotex_testnet_contract_metadata/TesseractMinter_v1.json";
 
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import Web3 from 'web3/dist/web3.min.js';
 
 const IOTEX_NETWORK_ID = '4690';
 
@@ -56,12 +55,8 @@ export default class Mint extends Component{
         console.log("inside iopay wallet");
         const provider = new WalletConnectProvider({
             rpc: {
-//                 1: "https://mainnet.mycustomnode.com",
-//                 3: "https://ropsten.mycustomnode.com",
-//                 100: "https://dai.poa.network",
                 4689: "https://babel-api.mainnet.iotex.io",
                 4690: "https://babel-api.testnet.iotex.io",
-                // ...
             },
         });
 
@@ -84,12 +79,21 @@ export default class Mint extends Component{
 
         // Subscribe to session disconnection
         provider.on("disconnect", (code: number, reason: string) => {
-          console.log(code, reason);
+            this._stopPollingData();
+            this._resetState();
+            console.log(code, reason);
         });
+        const ethersProvider = await new ethers.providers.Web3Provider(provider);
 
-        this._initialize(selectedAddress, provider);
+        this._initialize(selectedAddress, ethersProvider);
 
     };
+
+
+    async _getMetamaskProvider(){
+        const provider = await new ethers.providers.Web3Provider(window.ethereum);
+        return provider;
+    }
 
     async _connectWallet() {
         // This method is run when the user clicks the Connect. It connects the
@@ -98,13 +102,9 @@ export default class Mint extends Component{
         // To connect to the user's wallet, we have to run this method.
         // It returns a promise that will resolve to the user's address.
         const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const provider = await new ethers.providers.Web3Provider(window.ethereum);
+        const provider = this._getMetamaskProvider();
         // Once we have the address, we can initialize the application.
 
-        // First we check the network for hardhat connection
-//         if (!this._checkNetwork()) {
-//             return;
-//         }
 
         this._initialize(selectedAddress, provider);
 
@@ -114,16 +114,16 @@ export default class Mint extends Component{
 
         // We reinitialize it whenever the user changes their account.
         window.ethereum.on("accountsChanged", ([newAddress]) => {
-          this._stopPollingData();
-          // `accountsChanged` event can be triggered with an undefined newAddress.
-          // This happens when the user removes the Dapp from the "Connected
-          // list of sites allowed access to your addresses" (Metamask > Settings > Connections)
-          // To avoid errors, we reset the dapp state
-          if (newAddress === undefined) {
-            return this._resetState();
-          }
+            this._stopPollingData();
+            // `accountsChanged` event can be triggered with an undefined newAddress.
+            // This happens when the user removes the Dapp from the "Connected
+            // list of sites allowed access to your addresses" (Metamask > Settings > Connections)
+            // To avoid errors, we reset the dapp state
+            if (newAddress === undefined) {
+                return this._resetState();
+            }
 
-          this._initialize(newAddress);
+            this._initialize(newAddress, this._getMetamaskProvider());
         });
 
         // We reset the dapp state if the network is changed
@@ -151,30 +151,22 @@ export default class Mint extends Component{
 
     async _initializeEthers(provider) {
 
+        this.props.setProvider(provider);
 
-//         console.log(provider.getSigner());
-        const web3 = await new Web3(provider);
+        const crateMinter_v1_Contract = new ethers.Contract(
+                                        contractAddress.CrateMinter_v1.address,
+                                        CrateMinter_v1Artifact.abi,
+                                        (provider).getSigner()
+                                    )
 
-        this.props.setProvider(web3);
-        console.log(web3);
-
-//         const crateMinter_v1_Contract = new ethers.Contract(
-//                                         contractAddress.CrateMinter_v1.address,
-//                                         CrateMinter_v1Artifact.abi,
-//                                         (provider).getSigner()
-//                                     )
-
-        const tesseractMinter_v1_Contract = new web3.eth.Contract(TesseractMinter_v1Artifact.abi,
-                                        contractAddress.TesseractMinter_v1.address);
-
-//         const tesseractMinter_v1_Contract = new ethers.Contract(
-//                                         contractAddress.TesseractMinter_v1.address,
-//                                         TesseractMinter_v1Artifact.abi,
-//                                         (provider).getSigner()
-//                                     )
+        const tesseractMinter_v1_Contract = new ethers.Contract(
+                                        contractAddress.TesseractMinter_v1.address,
+                                        TesseractMinter_v1Artifact.abi,
+                                        (provider).getSigner()
+                                    )
 
         this.props.setTesseractMinter_v1_Contract(tesseractMinter_v1_Contract);
-//         this.props.setCrateMinter_v1_Contract(crateMinter_v1_Contract);
+        this.props.setCrateMinter_v1_Contract(crateMinter_v1_Contract);
     }
 
     MintCrateHandler = async(numMints) => {
@@ -191,13 +183,11 @@ export default class Mint extends Component{
 
     MintTesseractHandler = async(numMints) => {
         console.log("Trying to mint Tesseract");
-//         let MintCost = ethers.utils.formatEther(await this.props.tesseractMinter_v1_Contract.mintCost());
-//         console.log(MintCost);
-//         await this.props.tesseractMinter_v1_Contract.mintTesseract(BigNumber.from(numMints),{
-// 			value: ethers.utils.parseEther((MintCost*numMints).toString())
-// 		});
-        console.log(this.props.tesseractMinter_v1_Contract);
-        await this.props.tesseractMinter_v1_Contract.methods.mintTesseract(BigNumber.from(numMints)).send({from:this.props.selectedAddress});
+        let MintCost = ethers.utils.formatEther(await this.props.tesseractMinter_v1_Contract.mintCost());
+        console.log(MintCost);
+        await this.props.tesseractMinter_v1_Contract.mintTesseract(BigNumber.from(numMints),{
+			value: ethers.utils.parseEther((MintCost*numMints).toString())
+		});
 
 		console.log("Tried to mint Tesseract");
 
