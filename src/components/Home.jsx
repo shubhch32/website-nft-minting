@@ -210,20 +210,13 @@ export default class Home extends Component{
                         setCrateMinter_v1_Contract={(i)=>this.setCrateMinter_v1_Contract(i)}
                         tesseractMinter_v1_Contract={this.state.tesseractMinter_v1_Contract}
                         crateMinter_v1_Contract={this.state.crateMinter_v1_Contract}
+                        provider={this.state.provider}
                         />}
                 </div>
                 <div className='px-3'>
                     {this.state.isMyCollectionsPage && <MyCollections isCollectionsPageSelectionView={this.state.isCollectionsPageSelectionView}
-    //                     isCollectionsPageTesseractView={this.state.isCollectionsPageTesseractView}
-    //                     isCollectionsPageCrateView={this.state.isCollectionsPageCrateView}
-    //                     isCollectionsPageJsonView={this.state.isCollectionsPageJsonView}
-    //                     switchToCollectionsPageCrateView={()=>this.switchToCollectionsPageCrateView()}
-    //                     switchToCollectionsPageTesseractView={()=>this.switchToCollectionsPageTesseractView()}
-    //                     switchToCollectionsPageJsonView={()=>this.switchToCollectionsPageJsonView()}
                         provider={this.state.provider}
                         selectedAddress={this.state.selectedAddress}
-    //                     setJsonViewData={(jsonViewData)=>this.setJsonViewData(jsonViewData)}
-    //                     jsonViewData={this.state.jsonViewData}
                         />}
                 </div>
             </div>

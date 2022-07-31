@@ -7,9 +7,11 @@ import MintTesseract from "./MintTesseract";
 import MintCrate from "./MintCrate";
 
 
-import contractAddress from "../../iotex_testnet_contract_metadata/contract_address.json"
-import CrateMinter_v1Artifact from "../../iotex_testnet_contract_metadata/CrateMinter_v1.json"
-import TesseractMinter_v1Artifact from "../../iotex_testnet_contract_metadata/TesseractMinter_v1.json"
+import contractAddress from "../../iotex_testnet_contract_metadata/contract_address.json";
+import CrateMinter_v1Artifact from "../../iotex_testnet_contract_metadata/CrateMinter_v1.json";
+import TesseractMinter_v1Artifact from "../../iotex_testnet_contract_metadata/TesseractMinter_v1.json";
+
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 const IOTEX_NETWORK_ID = '4690';
 
@@ -20,9 +22,9 @@ export default class Mint extends Component{
     }
 
     render(){
-        if (window.ethereum === undefined) {
-            return <NoWalletDetected />;
-        }
+//         if (window.ethereum === undefined) {
+//             return <NoWalletDetected />;
+//         }
 
         if (!this.props.selectedAddress) {
             return(
@@ -30,6 +32,7 @@ export default class Mint extends Component{
                       connectWallet={() => this._connectWallet()}
                       networkError={this.props.networkError}
                       dismiss={() => this._dismissNetworkError()}
+                      connectToIoPayWallet={this.connectToIoPayWallet}
                  />
             );
         }
@@ -47,6 +50,51 @@ export default class Mint extends Component{
         )
     }
 
+    connectToIoPayWallet = async () => {
+
+        console.log("inside iopay wallet");
+        const provider = new WalletConnectProvider({
+            rpc: {
+                4689: "https://babel-api.mainnet.iotex.io",
+                4690: "https://babel-api.testnet.iotex.io",
+            },
+        });
+
+        console.log("inside iopay wallet");
+
+        //  Enable session (triggers QR Code modal)
+        await provider.enable();
+
+        const selectedAddress = provider.accounts[0];
+        this.props.setSelectedAddress(provider.accounts[0]);
+
+        provider.on("accountsChanged", (accounts: string[]) => {
+          console.log(accounts);
+        });
+
+        // Subscribe to chainId change
+        provider.on("chainChanged", (chainId: number) => {
+          console.log(chainId);
+        });
+
+        // Subscribe to session disconnection
+        provider.on("disconnect", (code: number, reason: string) => {
+            this._stopPollingData();
+            this._resetState();
+            console.log(code, reason);
+        });
+        const ethersProvider = await new ethers.providers.Web3Provider(provider);
+
+        this._initialize(selectedAddress, ethersProvider);
+
+    };
+
+
+    async _getMetamaskProvider(){
+        const provider = await new ethers.providers.Web3Provider(window.ethereum);
+        return provider;
+    }
+
     async _connectWallet() {
         // This method is run when the user clicks the Connect. It connects the
         // dapp to the user's wallet, and initializes it.
@@ -54,28 +102,28 @@ export default class Mint extends Component{
         // To connect to the user's wallet, we have to run this method.
         // It returns a promise that will resolve to the user's address.
         const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
+        const provider = this._getMetamaskProvider();
         // Once we have the address, we can initialize the application.
 
-        // First we check the network for hardhat connection
-//         if (!this._checkNetwork()) {
-//             return;
-//         }
 
-        this._initialize(selectedAddress);
+        this._initialize(selectedAddress, provider);
+
+        window.ethereum.on("connect", ([newAddress]) => {
+            console.log(newAddress);
+        });
 
         // We reinitialize it whenever the user changes their account.
         window.ethereum.on("accountsChanged", ([newAddress]) => {
-          this._stopPollingData();
-          // `accountsChanged` event can be triggered with an undefined newAddress.
-          // This happens when the user removes the Dapp from the "Connected
-          // list of sites allowed access to your addresses" (Metamask > Settings > Connections)
-          // To avoid errors, we reset the dapp state
-          if (newAddress === undefined) {
-            return this._resetState();
-          }
+            this._stopPollingData();
+            // `accountsChanged` event can be triggered with an undefined newAddress.
+            // This happens when the user removes the Dapp from the "Connected
+            // list of sites allowed access to your addresses" (Metamask > Settings > Connections)
+            // To avoid errors, we reset the dapp state
+            if (newAddress === undefined) {
+                return this._resetState();
+            }
 
-          this._initialize(newAddress);
+            this._initialize(newAddress, this._getMetamaskProvider());
         });
 
         // We reset the dapp state if the network is changed
@@ -85,7 +133,7 @@ export default class Mint extends Component{
         });
     }
 
-    _initialize(userAddress) {
+    _initialize(userAddress, provider) {
         // This method initializes the dapp
 
         // We first store the user's address in the component's state
@@ -96,42 +144,44 @@ export default class Mint extends Component{
 
         // Fetching the token data and the user's balance are specific to this
         // sample project, but you can reuse the same initialization pattern.
-        this._initializeEthers();
+        this._initializeEthers(provider);
         this._startPollingData();
     }
 
-    async _initializeEthers() {
+
+    async _initializeEthers(provider) {
+
+        this.props.setProvider(provider);
 
         const crateMinter_v1_Contract = new ethers.Contract(
                                         contractAddress.CrateMinter_v1.address,
                                         CrateMinter_v1Artifact.abi,
-                                        (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
+                                        (provider).getSigner()
                                     )
 
         const tesseractMinter_v1_Contract = new ethers.Contract(
                                         contractAddress.TesseractMinter_v1.address,
                                         TesseractMinter_v1Artifact.abi,
-                                        (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
+                                        (provider).getSigner()
                                     )
 
-        this.props.setProvider(new ethers.providers.Web3Provider(window.ethereum))
         this.props.setTesseractMinter_v1_Contract(tesseractMinter_v1_Contract);
         this.props.setCrateMinter_v1_Contract(crateMinter_v1_Contract);
     }
 
     MintCrateHandler = async(numMints) => {
-        let MintCost = ethers.utils.formatEther(await this.props.crateMinter_v1_Contract.mintCost())
+        let MintCost = ethers.utils.formatEther(await this.props.crateMinter_v1_Contract.mintCost());
         await this.props.crateMinter_v1_Contract.mintCrate(BigNumber.from(numMints),{
 			value: ethers.utils.parseEther((MintCost*numMints).toString())
-		})
+		});
 
     }
 
     MintTesseractHandler = async(numMints) => {
-        let MintCost = ethers.utils.formatEther(await this.props.tesseractMinter_v1_Contract.mintCost())
+        let MintCost = ethers.utils.formatEther(await this.props.tesseractMinter_v1_Contract.mintCost());
         await this.props.tesseractMinter_v1_Contract.mintTesseract(BigNumber.from(numMints),{
 			value: ethers.utils.parseEther((MintCost*numMints).toString())
-		})
+		});
 
     }
 
