@@ -29,11 +29,11 @@ export default class Mint extends Component{
         if (!this.props.selectedAddress) {
             return(
                 <ConnectWallet
-                      connectWallet={() => this._connectWallet()}
-                      networkError={this.props.networkError}
-                      dismiss={() => this._dismissNetworkError()}
-                      connectToIoPayWallet={this.connectToIoPayWallet}
-                 />
+                    connectWallet={() => this._connectWallet()}
+                    networkError={this.props.networkError}
+                    dismiss={() => this._dismissNetworkError()}
+                    connectToIoPayWallet={this.connectToIoPayWallet}
+                />
             );
         }
 

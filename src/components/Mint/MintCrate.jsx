@@ -45,21 +45,21 @@ export default class MintCrate extends Component{
                         </MDBRow>
                         <br/>
                         <MDBRow>
-                            <MDBCol align="right" md="5" onClick={()=>this.changeNFTCount(-1)}>
+                            <MDBCol align="right" onClick={()=>this.changeNFTCount(-1)}>
                                 <MDBBtn className='text-dark' color='light'>-</MDBBtn>
                             </MDBCol>
-                            <MDBCol align="center" md="2">{this.state.numberOfNFTs}</MDBCol>
-                            <MDBCol align="left" md="5" onClick={()=>this.changeNFTCount(1)}>
+                            <MDBCol align="center">{this.state.numberOfNFTs}</MDBCol>
+                            <MDBCol align="left" onClick={()=>this.changeNFTCount(1)}>
                                 <MDBBtn className='text-dark' color='light'>+</MDBBtn>
                             </MDBCol>
                         </MDBRow>
                         <br/>
                         <MDBRow>
-                            <MDBCol md="2"/>
-                            <MDBCol md="8" align="center">
+                            <MDBCol/>
+                            <MDBCol align="center">
                                 <MDBBtn className='d-grid gap-2 col-6 mx-auto' color='blue' onClick={()=>this.props.CrateMintHandler(this.state.numberOfNFTs)}>Mint</MDBBtn>
                             </MDBCol>
-                            <MDBCol md="2"/>
+                            <MDBCol/>
                         </MDBRow>
                     </MDBCol>
                 </MDBRow>
