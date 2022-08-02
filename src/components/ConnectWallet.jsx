@@ -25,7 +25,7 @@ export function ConnectWallet({ connectWallet, networkError, dismiss, connectToI
                 type="button"
                 onClick={connectWallet}
             >
-                Connect Metamask Wallet
+                Connect to Browser Wallet
             </button>
             <br/>
             <br/>
@@ -34,7 +34,7 @@ export function ConnectWallet({ connectWallet, networkError, dismiss, connectToI
                 type="button"
                 onClick={connectToIoPayWallet}
             >
-                Connect To IoPay Mobile
+                Connect to Mobile Wallet
             </button>
         </MDBContainer>
   );

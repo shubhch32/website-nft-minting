@@ -22,9 +22,6 @@ export default class Mint extends Component{
     }
 
     render(){
-//         if (window.ethereum === undefined) {
-//             return <NoWalletDetected />;
-//         }
 
         if (!this.props.selectedAddress) {
             return(
@@ -90,8 +87,8 @@ export default class Mint extends Component{
     };
 
 
-    async _getMetamaskProvider(){
-        const provider = await new ethers.providers.Web3Provider(window.ethereum);
+    _getMetamaskProvider(){
+        let provider = new ethers.providers.Web3Provider(window.ethereum);
         return provider;
     }
 
@@ -102,11 +99,10 @@ export default class Mint extends Component{
         // To connect to the user's wallet, we have to run this method.
         // It returns a promise that will resolve to the user's address.
         const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const provider = this._getMetamaskProvider();
         // Once we have the address, we can initialize the application.
 
 
-        this._initialize(selectedAddress, provider);
+        this._initialize(selectedAddress, this._getMetamaskProvider());
 
         window.ethereum.on("connect", ([newAddress]) => {
             console.log(newAddress);
