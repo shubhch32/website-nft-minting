@@ -43,6 +43,14 @@ export default class Home extends Component{
         };
     }
 
+    componentDidMount(){
+        this.deleteAllCookies();
+    }
+
+    deleteAllCookies() {
+        window.localStorage.clear();
+    }
+
     setSelectedAddress(selectedAddress){
         this.setState({selectedAddress});
     }
