@@ -35,6 +35,7 @@ export default class MintCrate extends Component{
                         <p className="font-monospace">Get these limited edition of <b>Crate NFTs</b> by clicking on the Mint button</p>
                         <p className="font-monospace">Open this Crate NFT to receive ROADRUNR NFTs</p>
                         <p className="font-monospace">The Crate Opening will be enabled soon</p>
+                        <p className="font-monospace"><b>1 Crate = 1800 IOTX</b></p>
                     </MDBCol>
                     <MDBCol md="7" align ="center">
                         <br/>
@@ -55,11 +56,9 @@ export default class MintCrate extends Component{
                         </MDBRow>
                         <br/>
                         <MDBRow>
-                            <MDBCol/>
                             <MDBCol align="center">
                                 <MDBBtn className='d-grid gap-2 col-6 mx-auto' color='blue' onClick={()=>this.props.CrateMintHandler(this.state.numberOfNFTs)}>Mint</MDBBtn>
                             </MDBCol>
-                            <MDBCol/>
                         </MDBRow>
                     </MDBCol>
                 </MDBRow>

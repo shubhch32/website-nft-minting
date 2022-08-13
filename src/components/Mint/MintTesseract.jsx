@@ -35,6 +35,7 @@ export default class MintTesseract extends Component{
                         <p className="font-monospace">Get these limited edition of <b>Tesseract NFTs</b> by clicking on the Mint button</p>
                         <p className="font-monospace">Fuse this Tesseract NFT with a <b>MachineFi NFT</b> to mint ROADRUNR NFTs</p>
                         <p className="font-monospace">The Fusion will be enabled soon</p>
+                        <p className="font-monospace"><b>1 Tesseract = 1200 IOTX</b></p>
                         </MDBCol>
                     <MDBCol md="7" align ="center">
                         <br/>
